@@ -20,8 +20,8 @@ src
 # contents selected with patternfile ??-header--public-generated-headers
 #
 set( PUBLIC_GENERATED_HEADERS
-src/reflect/_mulle-rbtree-include.h
-src/reflect/_mulle-rbtree-versioncheck.h
+src/reflect/_mulle-rbtree-debug-include.h
+src/reflect/_mulle-rbtree-debug-versioncheck.h
 )
 
 #
@@ -35,8 +35,6 @@ src/generic/include.h
 # contents selected with patternfile ??-header--public-headers
 #
 set( PUBLIC_HEADERS
-src/mulle--rbtree-debug.h
-src/mulle--rbtree.h
-src/mulle-rbtree.h
+src/mulle-rbtree-debug.h
 )
 

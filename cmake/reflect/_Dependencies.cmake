@@ -12,75 +12,150 @@ if( MULLE_TRACE_INCLUDE)
 endif()
 
 #
-# Generated from sourcetree: 40089838-70DB-4EC9-8865-509BECBB8C53;mulle-storage;no-all-load,no-cmake-loader,no-cmake-searchpath,no-import;
-# Disable with : `mulle-sourcetree mark mulle-storage no-link`
-# Disable for this platform: `mulle-sourcetree mark mulle-storage no-cmake-platform-${MULLE_UNAME}`
-# Disable for a sdk: `mulle-sourcetree mark mulle-storage no-cmake-sdk-<name>`
+# Generated from sourcetree: 8DB1697D-A19C-40A1-A1A8-8DE1A4444CC2;mulle-rbtree;no-all-load,no-cmake-loader,no-cmake-searchpath,no-import;
+# Disable with : `mulle-sourcetree mark mulle-rbtree no-link`
+# Disable for this platform: `mulle-sourcetree mark mulle-rbtree no-cmake-platform-${MULLE_UNAME}`
+# Disable for a sdk: `mulle-sourcetree mark mulle-rbtree no-cmake-sdk-<name>`
 #
 if( COLLECT_DEPENDENCY_LIBRARIES_AS_NAMES)
-   list( APPEND DEPENDENCY_LIBRARIES "mulle-storage")
+   list( APPEND DEPENDENCY_LIBRARIES "mulle-rbtree")
 else()
-   if( NOT MULLE__STORAGE_LIBRARY)
-      find_library( MULLE__STORAGE_LIBRARY NAMES
-         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
-         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_STATIC_LIBRARY_SUFFIX}
-         mulle-storage
+   if( NOT MULLE__RBTREE_LIBRARY)
+      find_library( MULLE__RBTREE_LIBRARY NAMES
+         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_STATIC_LIBRARY_SUFFIX}
+         mulle-rbtree
          NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_FIND_ROOT_PATH
       )
-      if( NOT MULLE__STORAGE_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
-         find_library( MULLE__STORAGE_LIBRARY NAMES
-            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
-            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_STATIC_LIBRARY_SUFFIX}
-            mulle-storage
+      if( NOT MULLE__RBTREE_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
+         find_library( MULLE__RBTREE_LIBRARY NAMES
+            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_STATIC_LIBRARY_SUFFIX}
+            mulle-rbtree
          )
       endif()
-      message( STATUS "MULLE__STORAGE_LIBRARY is ${MULLE__STORAGE_LIBRARY}")
+      message( STATUS "MULLE__RBTREE_LIBRARY is ${MULLE__RBTREE_LIBRARY}")
       #
       # The order looks ascending, but due to the way this file is read
       # it ends up being descending, which is what we need.
       #
-      if( MULLE__STORAGE_LIBRARY)
+      if( MULLE__RBTREE_LIBRARY)
          #
-         # Add MULLE__STORAGE_LIBRARY to DEPENDENCY_LIBRARIES list.
-         # Disable with: `mulle-sourcetree mark mulle-storage no-cmake-add`
+         # Add MULLE__RBTREE_LIBRARY to DEPENDENCY_LIBRARIES list.
+         # Disable with: `mulle-sourcetree mark mulle-rbtree no-cmake-add`
          #
-         list( APPEND DEPENDENCY_LIBRARIES ${MULLE__STORAGE_LIBRARY})
+         list( APPEND DEPENDENCY_LIBRARIES ${MULLE__RBTREE_LIBRARY})
          #
          # Inherit information from dependency.
          # Encompasses: no-cmake-searchpath,no-cmake-dependency,no-cmake-loader
-         # Disable with: `mulle-sourcetree mark mulle-storage no-cmake-inherit`
+         # Disable with: `mulle-sourcetree mark mulle-rbtree no-cmake-inherit`
          #
          # temporarily expand CMAKE_MODULE_PATH
-         get_filename_component( _TMP_MULLE__STORAGE_ROOT "${MULLE__STORAGE_LIBRARY}" DIRECTORY)
-         get_filename_component( _TMP_MULLE__STORAGE_ROOT "${_TMP_MULLE__STORAGE_ROOT}" DIRECTORY)
+         get_filename_component( _TMP_MULLE__RBTREE_ROOT "${MULLE__RBTREE_LIBRARY}" DIRECTORY)
+         get_filename_component( _TMP_MULLE__RBTREE_ROOT "${_TMP_MULLE__RBTREE_ROOT}" DIRECTORY)
          #
          #
          # Search for "Definitions.cmake" and "DependenciesAndLibraries.cmake" to include.
-         # Disable with: `mulle-sourcetree mark mulle-storage no-cmake-dependency`
+         # Disable with: `mulle-sourcetree mark mulle-rbtree no-cmake-dependency`
          #
-         foreach( _TMP_MULLE__STORAGE_NAME "mulle-storage")
-            set( _TMP_MULLE__STORAGE_DIR "${_TMP_MULLE__STORAGE_ROOT}/include/${_TMP_MULLE__STORAGE_NAME}/cmake")
+         foreach( _TMP_MULLE__RBTREE_NAME "mulle-rbtree")
+            set( _TMP_MULLE__RBTREE_DIR "${_TMP_MULLE__RBTREE_ROOT}/include/${_TMP_MULLE__RBTREE_NAME}/cmake")
             # use explicit path to avoid "surprises"
-            if( IS_DIRECTORY "${_TMP_MULLE__STORAGE_DIR}")
-               list( INSERT CMAKE_MODULE_PATH 0 "${_TMP_MULLE__STORAGE_DIR}")
+            if( IS_DIRECTORY "${_TMP_MULLE__RBTREE_DIR}")
+               list( INSERT CMAKE_MODULE_PATH 0 "${_TMP_MULLE__RBTREE_DIR}")
                #
-               include( "${_TMP_MULLE__STORAGE_DIR}/DependenciesAndLibraries.cmake" OPTIONAL)
+               include( "${_TMP_MULLE__RBTREE_DIR}/DependenciesAndLibraries.cmake" OPTIONAL)
                #
-               list( REMOVE_ITEM CMAKE_MODULE_PATH "${_TMP_MULLE__STORAGE_DIR}")
+               list( REMOVE_ITEM CMAKE_MODULE_PATH "${_TMP_MULLE__RBTREE_DIR}")
                #
-               unset( MULLE__STORAGE_DEFINITIONS)
-               include( "${_TMP_MULLE__STORAGE_DIR}/Definitions.cmake" OPTIONAL)
-               list( APPEND INHERITED_DEFINITIONS ${MULLE__STORAGE_DEFINITIONS})
+               unset( MULLE__RBTREE_DEFINITIONS)
+               include( "${_TMP_MULLE__RBTREE_DIR}/Definitions.cmake" OPTIONAL)
+               list( APPEND INHERITED_DEFINITIONS ${MULLE__RBTREE_DEFINITIONS})
                break()
             else()
-               message( STATUS "${_TMP_MULLE__STORAGE_DIR} not found")
+               message( STATUS "${_TMP_MULLE__RBTREE_DIR} not found")
             endif()
          endforeach()
       else()
-         # Disable with: `mulle-sourcetree mark mulle-storage no-require-link`
-         message( SEND_ERROR "MULLE__STORAGE_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
-${CMAKE_STATIC_LIBRARY_PREFIX}mulle-storage${CMAKE_STATIC_LIBRARY_SUFFIX}
-mulle-storage")
+         # Disable with: `mulle-sourcetree mark mulle-rbtree no-require-link`
+         message( SEND_ERROR "MULLE__RBTREE_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+${CMAKE_STATIC_LIBRARY_PREFIX}mulle-rbtree${CMAKE_STATIC_LIBRARY_SUFFIX}
+mulle-rbtree")
+      endif()
+   endif()
+endif()
+
+
+#
+# Generated from sourcetree: B5503F2F-7B31-414A-9C02-4951D21E79C6;mulle-fprintf;no-all-load,no-cmake-loader,no-cmake-searchpath,no-import;
+# Disable with : `mulle-sourcetree mark mulle-fprintf no-link`
+# Disable for this platform: `mulle-sourcetree mark mulle-fprintf no-cmake-platform-${MULLE_UNAME}`
+# Disable for a sdk: `mulle-sourcetree mark mulle-fprintf no-cmake-sdk-<name>`
+#
+if( COLLECT_DEPENDENCY_LIBRARIES_AS_NAMES)
+   list( APPEND DEPENDENCY_LIBRARIES "mulle-fprintf")
+else()
+   if( NOT MULLE__FPRINTF_LIBRARY)
+      find_library( MULLE__FPRINTF_LIBRARY NAMES
+         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+         ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_STATIC_LIBRARY_SUFFIX}
+         mulle-fprintf
+         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_FIND_ROOT_PATH
+      )
+      if( NOT MULLE__FPRINTF_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
+         find_library( MULLE__FPRINTF_LIBRARY NAMES
+            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+            ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_STATIC_LIBRARY_SUFFIX}
+            mulle-fprintf
+         )
+      endif()
+      message( STATUS "MULLE__FPRINTF_LIBRARY is ${MULLE__FPRINTF_LIBRARY}")
+      #
+      # The order looks ascending, but due to the way this file is read
+      # it ends up being descending, which is what we need.
+      #
+      if( MULLE__FPRINTF_LIBRARY)
+         #
+         # Add MULLE__FPRINTF_LIBRARY to DEPENDENCY_LIBRARIES list.
+         # Disable with: `mulle-sourcetree mark mulle-fprintf no-cmake-add`
+         #
+         list( APPEND DEPENDENCY_LIBRARIES ${MULLE__FPRINTF_LIBRARY})
+         #
+         # Inherit information from dependency.
+         # Encompasses: no-cmake-searchpath,no-cmake-dependency,no-cmake-loader
+         # Disable with: `mulle-sourcetree mark mulle-fprintf no-cmake-inherit`
+         #
+         # temporarily expand CMAKE_MODULE_PATH
+         get_filename_component( _TMP_MULLE__FPRINTF_ROOT "${MULLE__FPRINTF_LIBRARY}" DIRECTORY)
+         get_filename_component( _TMP_MULLE__FPRINTF_ROOT "${_TMP_MULLE__FPRINTF_ROOT}" DIRECTORY)
+         #
+         #
+         # Search for "Definitions.cmake" and "DependenciesAndLibraries.cmake" to include.
+         # Disable with: `mulle-sourcetree mark mulle-fprintf no-cmake-dependency`
+         #
+         foreach( _TMP_MULLE__FPRINTF_NAME "mulle-fprintf")
+            set( _TMP_MULLE__FPRINTF_DIR "${_TMP_MULLE__FPRINTF_ROOT}/include/${_TMP_MULLE__FPRINTF_NAME}/cmake")
+            # use explicit path to avoid "surprises"
+            if( IS_DIRECTORY "${_TMP_MULLE__FPRINTF_DIR}")
+               list( INSERT CMAKE_MODULE_PATH 0 "${_TMP_MULLE__FPRINTF_DIR}")
+               #
+               include( "${_TMP_MULLE__FPRINTF_DIR}/DependenciesAndLibraries.cmake" OPTIONAL)
+               #
+               list( REMOVE_ITEM CMAKE_MODULE_PATH "${_TMP_MULLE__FPRINTF_DIR}")
+               #
+               unset( MULLE__FPRINTF_DEFINITIONS)
+               include( "${_TMP_MULLE__FPRINTF_DIR}/Definitions.cmake" OPTIONAL)
+               list( APPEND INHERITED_DEFINITIONS ${MULLE__FPRINTF_DEFINITIONS})
+               break()
+            else()
+               message( STATUS "${_TMP_MULLE__FPRINTF_DIR} not found")
+            endif()
+         endforeach()
+      else()
+         # Disable with: `mulle-sourcetree mark mulle-fprintf no-require-link`
+         message( SEND_ERROR "MULLE__FPRINTF_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+${CMAKE_STATIC_LIBRARY_PREFIX}mulle-fprintf${CMAKE_STATIC_LIBRARY_SUFFIX}
+mulle-fprintf")
       endif()
    endif()
 endif()

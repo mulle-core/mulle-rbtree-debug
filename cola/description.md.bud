@@ -1,3 +1,2 @@
-This is an implementation of a [red-black tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree).
-[mulle-allocator](//github.com/mulle-c/mulle-allocator) is used to simplify
-memory management. It isn't thread-safe.
+This is debugging code for [mulle-rbtree](//github.com/mulle-c/mulle-rbtree)
+and used mulle-fprintf, therefore residing in mulle-core.

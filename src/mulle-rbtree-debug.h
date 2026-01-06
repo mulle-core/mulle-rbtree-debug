@@ -1,8 +1,8 @@
 //
-//  mulle--rbtree-debug.c
-//  mulle-rbtree
+//  mulle-rbtree-debug.h
+//  mulle-rbtree-debug
 //
-//  Copyright (c) <|YEAR|> Nat! - Mulle kybernetiK.
+//  Copyright (c) 2026 Nat! - Mulle kybernetiK.
 //  All rights reserved.
 //
 //
@@ -32,25 +32,28 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef mulle__rbtree_debug_h__
-#define mulle__rbtree_debug_h__
+#ifndef mulle__rbtree__debug__h__
+#define mulle__rbtree__debug__h__
 
-#include "mulle--rbtree.h"
+#include "include.h"
 
 // Red-black tree validation function
-MULLE__RBTREE_GLOBAL
+MULLE__RBTREE__DEBUG_GLOBAL
 char  *mulle__rbtree_validate(struct mulle__rbtree *a_tree);
 
 
-// print_value_fn == NULL uses "fprintf"
-MULLE__RBTREE_GLOBAL
+// print_value_fn == NULL uses "mulle_fprintf"
+MULLE__RBTREE__DEBUG_GLOBAL
 void  mulle__rbtree_node_dot_fprintf( FILE *fp,
                                       struct mulle__rbtree *tree,
                                       void (*print_value_fn)( FILE *fp, void *));
 
-MULLE__RBTREE_GLOBAL
+MULLE__RBTREE__DEBUG_GLOBAL
 void  mulle__rbtree_node_ascii_fprintf( FILE *fp,
                                         struct mulle__rbtree *tree,
                                         char *(*print_value_fn)( void *));
+
+
+#define MULLE__RBTREE__DEBUG_VERSION   ((0UL << 20) | (1 << 8) | 0)
 
 #endif
