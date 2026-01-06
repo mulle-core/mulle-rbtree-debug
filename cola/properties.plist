@@ -1,25 +1,33 @@
 {
    project =
    {
-      description="🍫 mulle-rbtree organizes data in a red/black tree";
+      description="🍫 mulle-rbtree-debug organizes data in a red/black tree";
       domain="github";
       language="c";
       dialect="c";
-      name="mulle-rbtree";
-      user="mulle-c";
-      repo="mulle-rbtree";
+      name="mulle-rbtree-debug";
+      user="mulle-core";
+      repo="mulle-rbtree-debug";
       homepage="https://github.com/mulle-c/mulle-rbtree";
       license="BSD-3-Clause";
    };
    dependencies =
    (
       {
-         description="🛅 Memory management for tree nodes";
+         description="🍫 mulle-rbtree organizes data in a red/black tree";
          domain="github";
-         name="mulle-storage";
-         repo="mulle-storage";
-         url="https://github.com/mulle-c/mulle-storage";
+         name="mulle-rbtree";
+         repo="mulle-rbtree";
+         url="https://github.com/mulle-c/mulle-rbtree";
          user="mulle-c";
+      },
+      {
+         description="🔢 mulle-fprintf marries mulle-sprintf to stdio.h";
+         domain="github";
+         name="mulle-fprintf";
+         repo="mulle-fprintf";
+         url="https://github.com/mulle-core/mulle-fprintf";
+         user="mulle-core";
       }
    );
 }

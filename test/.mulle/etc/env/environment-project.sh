@@ -8,7 +8,7 @@ export PROJECT_TYPE="none"
 #
 #
 #
-export PROJECT_NAME="mulle-rbtree"
+export PROJECT_NAME="mulle-rbtree-debug"
 
 
 #

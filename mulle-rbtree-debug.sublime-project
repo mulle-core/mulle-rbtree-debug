@@ -1,6 +1,6 @@
 {
-   "sublimegdb_workingdir": "${folder:kitchen/Debug/mulle-rbtree}",
-   "sublimegdb_commandline": "mulle-gdb --interpreter=mi kitchen/Debug/mulle-rbtree",
+   "sublimegdb_workingdir": "${folder:kitchen/Debug/mulle-rbtree-debug}",
+   "sublimegdb_commandline": "mulle-gdb --interpreter=mi kitchen/Debug/mulle-rbtree-debug",
    "folders":
    [
       {

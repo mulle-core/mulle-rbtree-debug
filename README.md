@@ -1,49 +1,19 @@
-# mulle-rbtree
+# mulle-rbtree-debug
 
-#### 🍫 mulle-rbtree organizes data in a red/black tree
+#### 🍫 mulle-rbtree-debug organizes data in a red/black tree
 
-This is an implementation of a [red-black tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree).
-[mulle-allocator](//github.com/mulle-c/mulle-allocator) is used to simplify
-memory management. It isn't thread-safe.
+This is debugging code for [mulle-rbtree](//github.com/mulle-c/mulle-rbtree)
+and used mulle-fprintf, therefore residing in mulle-core.
 
 
 
 | Release Version                                       | Release Notes  | AI Documentation
 |-------------------------------------------------------|----------------|---------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-c/mulle-rbtree.svg) [![Build Status](https://github.com/mulle-c/mulle-rbtree/workflows/CI/badge.svg)](//github.com/mulle-c/mulle-rbtree/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-rbtree](https://deepwiki.com/mulle-c/mulle-rbtree)
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-core/mulle-rbtree-debug.svg) [![Build Status](https://github.com/mulle-core/mulle-rbtree-debug/workflows/CI/badge.svg)](//github.com/mulle-core/mulle-rbtree-debug/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for mulle-rbtree-debug](https://deepwiki.com/mulle-core/mulle-rbtree-debug)
 
 
 
 
-
-## Info
-
-Red-black trees are difficult to explain without lots of diagrams, so little
-attempt is made to document this code.  However, an excellent discussion can
-be found in the following book, which was used as the reference for writing
-this implementation:
-
-```
-   Introduction to Algorithms
-   Thomas H. Cormen, Charles E. Leiserson, and Ronald L. Rivest
-   MIT Press (1990)
-   ISBN 0-07-013143-0
-```
-
-Some functions use a comparison function pointer, which is expected to have the
-following prototype:
-
-``` c
-   int (compare *)( void *payload_a, void *payload_b);
-```
-
-Interpretation of comparison function return values:
-
-| Return value | Comparison
-|--------------|-------------------
-|  `< 0`       | `a_a < a_b`
-|    `0`       | `a_a == a_b`
-|  `> 0`       | `a_a > a_b`
 
 
 ### You are here
@@ -54,55 +24,39 @@ Interpretation of comparison function return values:
 
 
 
-## Quickstart
-
-Install [mulle-core developer](https://github.com/MulleFoundation/foundation-developer?tab=readme-ov-file#install)
-then:
-
-
-``` sh
-mulle-sde init -d my-project -m mulle-core/c-developer executable
-cd my-project
-mulle-sde vibecoding on
-mulle-sde run
-```
-
-You are done, skip the following "Add" step.
-
-
 ## Add
 
-**This project is a component of the [mulle-core](//github.com/mulle-core/mulle-core) library.
-As such you usually will *not* add or install it individually, unless you
-specifically do not want to link against `mulle-core`.**
+**This project is a component of the [mulle-core](//github.com/mulle-core/mulle-core) library. As such you usually will *not* add or install it
+individually, unless you specifically do not want to link against
+`mulle-core`.**
 
 
 ### Add as an individual component
 
-Use [mulle-sde](//github.com/mulle-sde) to add mulle-rbtree to your project:
+Use [mulle-sde](//github.com/mulle-sde) to add mulle-rbtree-debug to your project:
 
 ``` sh
-mulle-sde add github:mulle-c/mulle-rbtree
+mulle-sde add github:mulle-core/mulle-rbtree-debug
 ```
 
-To only add the sources of mulle-rbtree with dependency
+To only add the sources of mulle-rbtree-debug with dependency
 sources use [clib](https://github.com/clibs/clib):
 
 
 ``` sh
-clib install --out src/mulle-c mulle-c/mulle-rbtree
+clib install --out src/mulle-core mulle-core/mulle-rbtree-debug
 ```
 
-Add `-isystem src/mulle-c` to your `CFLAGS` and compile all the sources that were downloaded with your project.
+Add `-isystem src/mulle-core` to your `CFLAGS` and compile all the sources that were downloaded with your project.
 
 
 ## Install
 
-Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-rbtree and all dependencies:
+Use [mulle-sde](//github.com/mulle-sde) to build and install mulle-rbtree-debug and all dependencies:
 
 ``` sh
 mulle-sde install --prefix /usr/local \
-   https://github.com/mulle-c/mulle-rbtree/archive/latest.tar.gz
+   https://github.com/mulle-core/mulle-rbtree-debug/archive/latest.tar.gz
 ```
 
 ### Legacy Installation
@@ -111,11 +65,12 @@ Install the requirements:
 
 | Requirements                                 | Description
 |----------------------------------------------|-----------------------
-| [mulle-storage](https://github.com/mulle-c/mulle-storage)             | 🛅 Memory management for tree nodes
+| [mulle-rbtree](https://github.com/mulle-c/mulle-rbtree)             | 🍫 mulle-rbtree organizes data in a red/black tree
+| [mulle-fprintf](https://github.com/mulle-core/mulle-fprintf)             | 🔢 mulle-fprintf marries mulle-sprintf to stdio.h
 
-Download the latest [tar](https://github.com/mulle-c/mulle-rbtree/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/mulle-c/mulle-rbtree/archive/refs/tags/latest.zip) archive and unpack it.
+Download the latest [tar](https://github.com/mulle-core/mulle-rbtree-debug/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/mulle-core/mulle-rbtree-debug/archive/refs/tags/latest.zip) archive and unpack it.
 
-Install **mulle-rbtree** into `/usr/local` with [cmake](https://cmake.org):
+Install **mulle-rbtree-debug** into `/usr/local` with [cmake](https://cmake.org):
 
 ``` sh
 PREFIX_DIR="/usr/local"

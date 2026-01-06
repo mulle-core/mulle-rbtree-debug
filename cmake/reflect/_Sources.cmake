@@ -11,7 +11,5 @@ endif()
 # contents selected with patternfile ??-source--sources
 #
 set( SOURCES
-src/mulle--rbtree.c
-src/mulle-rbtree.c
 src/mulle--rbtree-debug.c
 )

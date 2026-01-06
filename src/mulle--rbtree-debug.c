@@ -1,6 +1,6 @@
 //
 //  mulle--rbtree-debug.c
-//  mulle-rbtree
+//  mulle-rbtree-debug
 //
 //  Copyright (c) <|YEAR|> Nat! - Mulle kybernetiK.
 //  All rights reserved.
@@ -32,7 +32,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include "mulle--rbtree-debug.h"
+#include "mulle-rbtree-debug.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -211,11 +211,11 @@ _mulle__rbtree_node_dot_fprintf( FILE *fp,
    right_id = (node_id << 1) + 1;
 
    // Node definition
-   fprintf( fp, "  \"%ld\" [label=\"", node_id);
+   mulle_fprintf( fp, "  \"%ld\" [label=\"", node_id);
    if( print_value_fn)
       (*print_value_fn)( fp, _mulle__rbtree_get_node_value( a_tree, node));
    else
-      fprintf( fp, "%ld", node_id);
+      mulle_fprintf( fp, "%ld", node_id);
 
    if( _mulle_rbnode_is_dirty( node))
       fillcolor = _mulle_rbnode_is_red( node) ? "lightcoral" : "darkgray";
@@ -236,33 +236,33 @@ _mulle__rbtree_node_dot_fprintf( FILE *fp,
       }
    }
 
-    fprintf(fp, "\", style=\"%s,bold\", fillcolor=%s, fontcolor=%s];\n",
+    mulle_fprintf(fp, "\", style=\"%s,bold\", fillcolor=%s, fontcolor=%s];\n",
                fillstyle, fillcolor, fontcolor);
 
 
    // Left child
    if( node->_left != nil)
    {
-      fprintf( fp, "  \"%ld\" -> \"%ld\" [label=\" L\"];\n", node_id, left_id);
+      mulle_fprintf( fp, "  \"%ld\" -> \"%ld\" [label=\" L\"];\n", node_id, left_id);
       _mulle__rbtree_node_dot_fprintf( fp, left_id, node->_left, a_tree, print_value_fn);
    }
    else
    {
       // Show nil leaves for clarity
-      fprintf( fp, "  nil_%ld [shape=point];\n", left_id);
-      fprintf( fp, "  \"%ld\" -> nil_%ld [label=\" L\"];\n", node_id, left_id);
+      mulle_fprintf( fp, "  nil_%ld [shape=point];\n", left_id);
+      mulle_fprintf( fp, "  \"%ld\" -> nil_%ld [label=\" L\"];\n", node_id, left_id);
    }
 
    // Right child
    if (node->_right != nil)
    {
-      fprintf( fp, "  \"%ld\" -> \"%ld\" [label=\" R\"];\n", node_id, right_id);
+      mulle_fprintf( fp, "  \"%ld\" -> \"%ld\" [label=\" R\"];\n", node_id, right_id);
       _mulle__rbtree_node_dot_fprintf( fp, right_id, node->_right, a_tree, print_value_fn);
    }
    else
    {
-      fprintf( fp, "  nil_%ld [shape=point];\n", right_id);
-      fprintf( fp, "  \"%ld\" -> nil_%ld [label=\" R\"];\n", node_id, right_id);
+      mulle_fprintf( fp, "  nil_%ld [shape=point];\n", right_id);
+      mulle_fprintf( fp, "  \"%ld\" -> nil_%ld [label=\" R\"];\n", node_id, right_id);
    }
 }
 
@@ -276,14 +276,14 @@ void  mulle__rbtree_node_dot_fprintf( FILE *fp,
 
    fp = fp ? fp : stdout;
 
-   fprintf( fp, "digraph RBTree {\n");
-   fprintf( fp, "  rankdir=LR;\n");             // Top to Bottom layout nicer only for small trees
-   fprintf( fp, "  node [shape=circle, fontcolor=white, fontsize=10];\n");
+   mulle_fprintf( fp, "digraph RBTree {\n");
+   mulle_fprintf( fp, "  rankdir=LR;\n");             // Top to Bottom layout nicer only for small trees
+   mulle_fprintf( fp, "  node [shape=circle, fontcolor=white, fontsize=10];\n");
 
    if( a_tree)
       _mulle__rbtree_node_dot_fprintf( fp, 1, a_tree->_root, a_tree, print_value_fn);
 
-   fprintf( fp, "}\n");
+   mulle_fprintf( fp, "}\n");
 }
 
 
@@ -353,16 +353,16 @@ static char *   _node_label( struct mulle__rbtree *a_tree,
 
    value = _mulle__rbtree_get_node_value( a_tree, node);
    if( ! value)
-      s = strdup( "NULL");
+      s = mulle_strdup( "NULL");
    else
       s = (*print_value_fn)( value);
 
-   s = s ? s : strdup( "???");
+   s = s ? s : mulle_strdup( "???");
 
    len   = snprintf( NULL, 0, "%s(%c)", s, status_char);
-   str   = malloc( len + 1);
+   str   = mulle_malloc( len + 1);
    snprintf( str, len + 1, "%s(%c)", s, status_char);
-   free( s);
+   mulle_free( s);
 
    return( str);
 }
@@ -379,7 +379,7 @@ static int   _node_width( struct mulle__rbtree *a_tree,
 
    s     = _node_label( a_tree, node, print_value_fn);
    len   = strlen( s);
-   free( s);
+   mulle_free( s);
    return( len);
 }
 
@@ -486,13 +486,13 @@ static void   _print_bottom_up_tree( FILE *fp,
 
    if( root == nil)
    {
-      fprintf( fp, "(empty tree)\n");
+      mulle_fprintf( fp, "(empty tree)\n");
       return;
    }
 
    height    = _tree_height( root, a_tree);
    max_nodes = (1 << height) - 1;  // 2^height - 1
-   nodes     = calloc( max_nodes, sizeof( struct tree_node_info));
+   nodes     = mulle_calloc( max_nodes, sizeof( struct tree_node_info));
 
    // Build tree positions bottom-up
    _build_tree_positions( root, a_tree, print_value_fn, nodes, &node_count, 0, &x_offset);
@@ -506,18 +506,18 @@ static void   _print_bottom_up_tree( FILE *fp,
    max_width += 2;
 
    // Allocate lines for output
-   lines           = calloc( height, sizeof( char *));
-   connector_lines = calloc( height - 1, sizeof( char *));
+   lines           = mulle_calloc( height, sizeof( char *));
+   connector_lines = mulle_calloc( height - 1, sizeof( char *));
    
    for( i = 0; i < height; i++)
    {
-      lines[ i] = calloc( max_width + 1, 1);
+      lines[ i] = mulle_calloc( max_width + 1, 1);
       memset( lines[ i], ' ', max_width);
       lines[ i][ max_width] = '\0';
       
       if( i < height - 1)
       {
-         connector_lines[ i] = calloc( max_width + 1, 1);
+         connector_lines[ i] = mulle_calloc( max_width + 1, 1);
          memset( connector_lines[ i], ' ', max_width);
          connector_lines[ i][ max_width] = '\0';
       }
@@ -533,7 +533,7 @@ static void   _print_bottom_up_tree( FILE *fp,
       {
          memcpy( lines[ nodes[ i].level] + start_pos, node_str, strlen( node_str));
       }
-      free( node_str);
+      mulle_free( node_str);
 
       // Add connectors to parent
       if( nodes[ i].level > 0)
@@ -586,7 +586,7 @@ static void   _print_bottom_up_tree( FILE *fp,
       lines[ i][ len] = '\0';
       
       if( len > 0)
-         fprintf( fp, "%s\n", lines[ i]);
+         mulle_fprintf( fp, "%s\n", lines[ i]);
 
       if( i < height - 1)
       {
@@ -596,18 +596,18 @@ static void   _print_bottom_up_tree( FILE *fp,
          connector_lines[ i][ len] = '\0';
          
          if( len > 0)
-            fprintf( fp, "%s\n", connector_lines[ i]);
+            mulle_fprintf( fp, "%s\n", connector_lines[ i]);
       }
    }
 
    // Clean up
    for( i = 0; i < height; i++)
-      free( lines[ i]);
+      mulle_free( lines[ i]);
    for( i = 0; i < height - 1; i++)
-      free( connector_lines[ i]);
-   free( lines);
-   free( connector_lines);
-   free( nodes);
+      mulle_free( connector_lines[ i]);
+   mulle_free( lines);
+   mulle_free( connector_lines);
+   mulle_free( nodes);
 }
 
 
@@ -620,7 +620,7 @@ void   mulle__rbtree_node_ascii_fprintf( FILE *fp,
 
    if( ! a_tree)
    {
-      fprintf( fp, "NULL\n");
+      mulle_fprintf( fp, "NULL\n");
       return;
    }
 
@@ -634,10 +634,10 @@ void   mulle__rbtree_node_ascii_fprintf( FILE *fp,
 
    if( root == nil)
    {
-      fprintf( fp, "(empty tree)\n");
+      mulle_fprintf( fp, "(empty tree)\n");
       return;
    }
 
-   fprintf( fp, "Red-Black Tree (r=red, b=black, R=red+dirty, B=black+dirty):\n");
+   mulle_fprintf( fp, "Red-Black Tree (r=red, b=black, R=red+dirty, B=black+dirty):\n");
    _print_bottom_up_tree( fp, a_tree, print_value_fn);
 }
