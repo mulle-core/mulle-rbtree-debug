@@ -330,11 +330,10 @@ static char *   _node_label( struct mulle__rbtree *a_tree,
                              struct mulle_rbnode *node,
                              char *(*print_value_fn)( void *))
 {
-   void     *value;
+   char     *result;
    char     *s;
-   size_t   len;
-   char     *str;
    char     status_char;
+   void     *value;
 
    if( _mulle_rbnode_is_red( node))
    {
@@ -351,20 +350,29 @@ static char *   _node_label( struct mulle__rbtree *a_tree,
          status_char = 'b';
    }
 
-   value = _mulle__rbtree_get_node_value( a_tree, node);
-   if( ! value)
-      s = mulle_strdup( "NULL");
-   else
-      s = (*print_value_fn)( value);
-
-   s = s ? s : mulle_strdup( "???");
-
-   len   = snprintf( NULL, 0, "%s(%c)", s, status_char);
-   str   = mulle_malloc( len + 1);
-   snprintf( str, len + 1, "%s(%c)", s, status_char);
-   mulle_free( s);
-
-   return( str);
+   mulle_buffer_do( label_buffer)
+   {
+      value = _mulle__rbtree_get_node_value( a_tree, node);
+      if( ! value)
+      {
+         mulle_buffer_add_string( label_buffer, "NULL");
+      }
+      else
+      {
+         s = (*print_value_fn)( value);
+         mulle_buffer_add_string( label_buffer, s ? s : "???");
+         mulle_free( s);
+      }
+      
+      mulle_buffer_add_char( label_buffer, '(');
+      mulle_buffer_add_char( label_buffer, status_char);
+      mulle_buffer_add_char( label_buffer, ')');
+      mulle_buffer_make_string( label_buffer);
+      
+      result = mulle_buffer_extract_string( label_buffer);
+   }
+   
+   return( result);
 }
 
 
@@ -460,26 +468,23 @@ static void   _build_tree_positions( struct mulle_rbnode *node,
    *x_offset += node_width + 2;
 }
 
-// Print tree using bottom-up approach with malloced buffers
+// Print tree using mulle_array and mulle_buffer
 static void   _print_bottom_up_tree( FILE *fp,
                                      struct mulle__rbtree *a_tree,
                                      char *(*print_value_fn)( void *))
 {
-   char                    **connector_lines;
-   char                    **lines;
    char                    *node_str;
    int                     height;
    int                     i;
    int                     j;
    int                     max_nodes;
-   int                     max_width = 0;
+   size_t                  max_width = 0;
    int                     node_count = 0;
    int                     parent_pos;
    int                     x_offset = 0;
    struct mulle_rbnode     *nil;
    struct mulle_rbnode     *root;
    struct tree_node_info   *nodes;
-
 
    nil  = _mulle__rbtree_get_nil_node( a_tree);
    root = _mulle__rbtree_get_root_node( a_tree);
@@ -500,113 +505,135 @@ static void   _print_bottom_up_tree( FILE *fp,
    // Find maximum width
    for( i = 0; i < node_count; i++)
    {
-      if( nodes[ i].x + nodes[ i].width / 2 > max_width)
+      if( (size_t) (nodes[ i].x + nodes[ i].width / 2) > max_width)
          max_width = nodes[ i].x + nodes[ i].width / 2;
    }
    max_width += 2;
 
-   // Allocate lines for output
-   lines           = mulle_calloc( height, sizeof( char *));
-   connector_lines = mulle_calloc( height - 1, sizeof( char *));
-   
-   for( i = 0; i < height; i++)
+   // Use mulle_array to store lines
+   mulle_array_do( lines, &mulle_container_keycallback_copied_cstring)
    {
-      lines[ i] = mulle_calloc( max_width + 1, 1);
-      memset( lines[ i], ' ', max_width);
-      lines[ i][ max_width] = '\0';
-      
-      if( i < height - 1)
+      mulle_array_do( connectors, &mulle_container_keycallback_copied_cstring)
       {
-         connector_lines[ i] = mulle_calloc( max_width + 1, 1);
-         memset( connector_lines[ i], ' ', max_width);
-         connector_lines[ i][ max_width] = '\0';
-      }
-   }
-
-   // Fill lines with node strings
-   for( i = 0; i < node_count; i++)
-   {
-      node_str = _node_label( a_tree, nodes[ i].node, print_value_fn);
-      int start_pos = nodes[ i].x - strlen( node_str) / 2;
-      
-      if( start_pos >= 0 && start_pos + strlen( node_str) <= max_width)
-      {
-         memcpy( lines[ nodes[ i].level] + start_pos, node_str, strlen( node_str));
-      }
-      mulle_free( node_str);
-
-      // Add connectors to parent
-      if( nodes[ i].level > 0)
-      {
-         struct mulle_rbnode *parent = nodes[ i].node->_parent;
-         int parent_idx = -1;
-         
-         for( j = 0; j < node_count; j++)
+         // Build lines for each level
+         for( i = 0; i < height; i++)
          {
-            if( nodes[ j].node == parent)
+            mulle_buffer_do( line_buffer)
             {
-               parent_idx = j;
-               break;
+               // Fill with spaces
+               mulle_buffer_memset( line_buffer, ' ', max_width);
+               mulle_buffer_make_string( line_buffer);
+               
+               mulle_array_add( lines, mulle_buffer_get_string( line_buffer));
             }
-         }
-         
-         if( parent_idx != -1)
-         {
-            parent_pos = nodes[ parent_idx].x;
             
-            if( nodes[ i].node == parent->_left)
+            if( i < height - 1)
             {
-               // Left child - draw '/'
-               for( j = nodes[ i].x + 1; j < parent_pos; j++)
+               mulle_buffer_do( connector_buffer)
                {
-                  if( j >= 0 && j < max_width)
-                     connector_lines[ nodes[ i].level - 1][ j] = '/';
+                  // Fill with spaces
+                  mulle_buffer_memset( connector_buffer, ' ', max_width);
+                  mulle_buffer_make_string( connector_buffer);
+                  
+                  mulle_array_add( connectors, mulle_buffer_get_string( connector_buffer));
                }
             }
-            else
+         }
+
+         // Fill lines with node strings
+         for( i = 0; i < node_count; i++)
+         {
+            char  *line;
+            int   start_pos;
+            
+            node_str = _node_label( a_tree, nodes[ i].node, print_value_fn);
+            start_pos = nodes[ i].x - strlen( node_str) / 2;
+            
+            if( start_pos >= 0 && start_pos + strlen( node_str) <= max_width)
             {
-               // Right child - draw '\'
-               for( j = parent_pos + 1; j < nodes[ i].x; j++)
+               line = (char *) mulle_array_get( lines, nodes[ i].level);
+               memcpy( line + start_pos, node_str, strlen( node_str));
+            }
+            mulle_free( node_str);
+
+            // Add connectors to parent
+            if( nodes[ i].level > 0)
+            {
+               struct mulle_rbnode *parent = nodes[ i].node->_parent;
+               int parent_idx = -1;
+               
+               for( j = 0; j < node_count; j++)
                {
-                  if( j >= 0 && j < max_width)
-                     connector_lines[ nodes[ i].level - 1][ j] = '\\';
+                  if( nodes[ j].node == parent)
+                  {
+                     parent_idx = j;
+                     break;
+                  }
                }
+               
+               if( parent_idx != -1)
+               {
+                  char *connector_line;
+                  
+                  parent_pos = nodes[ parent_idx].x;
+                  connector_line = (char *) mulle_array_get( connectors, nodes[ i].level - 1);
+                  
+                  if( nodes[ i].node == parent->_left)
+                  {
+                     // Left child - draw '/'
+                     for( j = nodes[ i].x + 1; j < parent_pos; j++)
+                     {
+                        if( j >= 0 && (size_t) j < max_width)
+                           connector_line[ j] = '/';
+                     }
+                  }
+                  else
+                  {
+                     // Right child - draw '\'
+                     for( j = parent_pos + 1; j < nodes[ i].x; j++)
+                     {
+                        if( j >= 0 && (size_t) j < max_width)
+                           connector_line[ j] = '\\';
+                     }
+                  }
+               }
+            }
+         }
+
+         // Print the tree
+         for( i = 0; i < height; i++)
+         {
+            char  *line;
+            int   len;
+            
+            line = (char *) mulle_array_get( lines, i);
+            
+            // Trim trailing spaces
+            len = strlen( line);
+            while( len > 0 && line[ len - 1] == ' ')
+               len--;
+            line[ len] = '\0';
+            
+            if( len > 0)
+               mulle_fprintf( fp, "%s\n", line);
+
+            if( i < height - 1)
+            {
+               char *connector_line;
+               
+               connector_line = (char *) mulle_array_get( connectors, i);
+               len = strlen( connector_line);
+               while( len > 0 && connector_line[ len - 1] == ' ')
+                  len--;
+               connector_line[ len] = '\0';
+               
+               if( len > 0)
+                  mulle_fprintf( fp, "%s\n", connector_line);
             }
          }
       }
    }
 
-   // Print the tree
-   for( i = 0; i < height; i++)
-   {
-      // Trim trailing spaces
-      int len = strlen( lines[ i]);
-      while( len > 0 && lines[ i][ len - 1] == ' ')
-         len--;
-      lines[ i][ len] = '\0';
-      
-      if( len > 0)
-         mulle_fprintf( fp, "%s\n", lines[ i]);
-
-      if( i < height - 1)
-      {
-         len = strlen( connector_lines[ i]);
-         while( len > 0 && connector_lines[ i][ len - 1] == ' ')
-            len--;
-         connector_lines[ i][ len] = '\0';
-         
-         if( len > 0)
-            mulle_fprintf( fp, "%s\n", connector_lines[ i]);
-      }
-   }
-
-   // Clean up
-   for( i = 0; i < height; i++)
-      mulle_free( lines[ i]);
-   for( i = 0; i < height - 1; i++)
-      mulle_free( connector_lines[ i]);
-   mulle_free( lines);
-   mulle_free( connector_lines);
    mulle_free( nodes);
 }
 
