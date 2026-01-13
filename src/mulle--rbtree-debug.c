@@ -41,40 +41,43 @@
 // Helper function to validate black-height property from a node to leaves
 // Returns NULL if the black-height property is satisfied, otherwise an error message.
 // Sets *black_height to the computed black height if valid.
-static char *_mulle__rbtree_validate_black_height(struct mulle__rbtree *a_tree,
-                                                  struct mulle_rbnode *node,
-                                                  int *black_height)
+static char   *_mulle__rbtree_validate_black_height( struct mulle__rbtree *a_tree,
+                                                     struct mulle_rbnode *node,
+                                                     int *black_height)
 {
+   char                *left_err;
+   char                *right_err;
+   int                 left_height;
+   int                 right_height;
    struct mulle_rbnode *nil;
-   char *left_err, *right_err;
-   int left_height, right_height;
 
-   nil = _mulle__rbtree_get_nil_node(a_tree);
+   nil = _mulle__rbtree_get_nil_node( a_tree);
 
    // NIL nodes are black and have height 1
-   if (node == nil)
+   if( node == nil)
    {
       *black_height = 1;
-      return NULL;
+      return( NULL);
    }
 
    // Recursively validate and compute black heights of left and right subtrees
    left_err = _mulle__rbtree_validate_black_height( a_tree, node->_left, &left_height);
    if( left_err != NULL)
-      return left_err;
+      return( left_err);
 
    right_err = _mulle__rbtree_validate_black_height( a_tree, node->_right, &right_height);
    if( right_err != NULL)
-      return right_err;
+      return( right_err);
 
    // Both subtrees must have the same black height
-   if (left_height != right_height) {
-      return "Black heights do not match between left and right subtrees";
+   if( left_height != right_height)
+   {
+      return( "Black heights do not match between left and right subtrees");
    }
 
    // Add 1 if current node is black
-   *black_height = left_height + (_mulle_rbnode_is_black(node) ? 1 : 0);
-   return NULL;
+   *black_height = left_height + (_mulle_rbnode_is_black( node) ? 1 : 0);
+   return( NULL);
 }
 
 
@@ -83,51 +86,59 @@ static char *_mulle__rbtree_validate_black_height(struct mulle__rbtree *a_tree,
 static char   *_mulle__rbtree_validate_node( struct mulle__rbtree *a_tree,
                                              struct mulle_rbnode *node)
 {
+   char                *err;
    struct mulle_rbnode *nil;
-   char *err;
 
-   nil = _mulle__rbtree_get_nil_node(a_tree);
+   nil = _mulle__rbtree_get_nil_node( a_tree);
 
    // NIL nodes are always valid
-   if (node == nil) {
-      return NULL;
+   if( node == nil)
+   {
+      return( NULL);
    }
 
    // Rule 4: Red nodes can't have red children
-   if (_mulle_rbnode_is_red(node)) {
-      if (node->_left != nil && _mulle_rbnode_is_red(node->_left)) {
-         return "Red-red violation: Red node has red left child";
+   if( _mulle_rbnode_is_red( node))
+   {
+      if( node->_left != nil && _mulle_rbnode_is_red( node->_left))
+      {
+         return( "Red-red violation: Red node has red left child");
       }
-      if (node->_right != nil && _mulle_rbnode_is_red(node->_right)) {
-         return "Red-red violation: Red node has red right child";
+      if( node->_right != nil && _mulle_rbnode_is_red( node->_right))
+      {
+         return( "Red-red violation: Red node has red right child");
       }
    }
 
    // Validate parent-child consistency
-   if (node->_left != nil && node->_left->_parent != node) {
-      return "Parent-child inconsistency: Left child's parent pointer is incorrect";
+   if( node->_left != nil && node->_left->_parent != node)
+   {
+      return( "Parent-child inconsistency: Left child's parent pointer is incorrect");
    }
-   if (node->_right != nil && node->_right->_parent != node) {
-      return "Parent-child inconsistency: Right child's parent pointer is incorrect";
+   if( node->_right != nil && node->_right->_parent != node)
+   {
+      return( "Parent-child inconsistency: Right child's parent pointer is incorrect");
    }
 
    if( _mulle_rbnode_is_dirty( node) && ! _mulle_rbnode_is_dirty( node->_parent))
    {
       if( _mulle__rbtree_get_root_node( a_tree) != node)
-         return "Dirty flag inconsistency: Parent is not marked dirty but child is";
+         return( "Dirty flag inconsistency: Parent is not marked dirty but child is");
    }
 
    // Recursively validate left and right subtrees
    err = _mulle__rbtree_validate_node( a_tree, node->_left);
-   if (err != NULL) {
-      return err;
+   if( err != NULL)
+   {
+      return( err);
    }
    err = _mulle__rbtree_validate_node( a_tree, node->_right);
-   if (err != NULL) {
-      return err;
+   if( err != NULL)
+   {
+      return( err);
    }
 
-   return NULL;
+   return( NULL);
 }
 
 
@@ -144,47 +155,52 @@ static char   *_mulle__rbtree_validate_node( struct mulle__rbtree *a_tree,
  *   NULL - Tree is valid
  *   error message string - Tree violates red-black properties (describes the violation)
  */
-char   *mulle__rbtree_validate(struct mulle__rbtree *a_tree)
+char   *mulle__rbtree_validate( struct mulle__rbtree *a_tree)
 {
-   struct mulle_rbnode   *root;
-   struct mulle_rbnode   *nil;
-   char                  *err;
    int                   black_height;  // Unused, but needed for validation call
+   char                  *err;
+   struct mulle_rbnode   *nil;
+   struct mulle_rbnode   *root;
 
    if( ! a_tree)
       return( NULL);
 
-   nil = _mulle__rbtree_get_nil_node(a_tree);
-   root = _mulle__rbtree_get_root_node(a_tree);
+   nil = _mulle__rbtree_get_nil_node( a_tree);
+   root = _mulle__rbtree_get_root_node( a_tree);
 
    // Rule 3: NIL node must be black (sanity check)
-   if (!_mulle_rbnode_is_black(nil)) {
-      return "NIL node is not black";
+   if( ! _mulle_rbnode_is_black( nil))
+   {
+      return( "NIL node is not black");
    }
 
    // Empty tree is valid
-   if (root == nil) {
-      return NULL;
+   if( root == nil)
+   {
+      return( NULL);
    }
 
    // Rule 2: Root must be black
-   if (!_mulle_rbnode_is_black(root)) {
-      return "Root node is not black";
+   if( ! _mulle_rbnode_is_black( root))
+   {
+      return( "Root node is not black");
    }
 
    // Validate node properties and red-red violations (Rule 4)
-   err = _mulle__rbtree_validate_node(a_tree, root);
-   if (err != NULL) {
-      return err;
+   err = _mulle__rbtree_validate_node( a_tree, root);
+   if( err != NULL)
+   {
+      return( err);
    }
 
    // Rule 5: Validate black-height consistency
-   err = _mulle__rbtree_validate_black_height(a_tree, root, &black_height);
-   if (err != NULL) {
-      return err;
+   err = _mulle__rbtree_validate_black_height( a_tree, root, &black_height);
+   if( err != NULL)
+   {
+      return( err);
    }
 
-   return NULL;  // Tree is valid
+   return( NULL);  // Tree is valid
 }
 
 
@@ -195,12 +211,12 @@ _mulle__rbtree_node_dot_fprintf( FILE *fp,
                                  struct mulle__rbtree *a_tree,
                                  void (*print_value_fn)( FILE *fp, void *))
 {
-   struct mulle_rbnode *nil;
-   unsigned long       left_id;
-   unsigned long       right_id;
-   char                *fillstyle;
    char                *fillcolor;
+   char                *fillstyle;
    char                *fontcolor;
+   unsigned long       left_id;
+   struct mulle_rbnode *nil;
+   unsigned long       right_id;
 
    nil = _mulle__rbtree_get_nil_node( a_tree);
 
@@ -236,7 +252,7 @@ _mulle__rbtree_node_dot_fprintf( FILE *fp,
       }
    }
 
-    mulle_fprintf(fp, "\", style=\"%s,bold\", fillcolor=%s, fontcolor=%s];\n",
+    mulle_fprintf( fp, "\", style=\"%s,bold\", fillcolor=%s, fontcolor=%s];\n",
                fillstyle, fillcolor, fontcolor);
 
 
@@ -289,20 +305,12 @@ void  mulle__rbtree_node_dot_fprintf( FILE *fp,
 
 
 
-// Structure for tree printing
-struct tree_line
-{
-   char *buffer;
-   int   length;
-};
-
-
 struct tree_node_info
 {
    struct mulle_rbnode   *node;
    int                   level;
    int                   x;
-   int                   width;
+   size_t                width;
 };
 
 
@@ -310,8 +318,8 @@ struct tree_node_info
 static int   _tree_height( struct mulle_rbnode *node,
                            struct mulle__rbtree *a_tree)
 {
-   struct mulle_rbnode *nil;
    int                  left_height;
+   struct mulle_rbnode *nil;
    int                  right_height;
 
    nil = _mulle__rbtree_get_nil_node( a_tree);
@@ -378,15 +386,15 @@ static char *   _node_label( struct mulle__rbtree *a_tree,
 
 
 // Calculate width needed for a node's string representation
-static int   _node_width( struct mulle__rbtree *a_tree,
-                          struct mulle_rbnode *node,
-                          char *(*print_value_fn)( void *))
+static size_t   _node_width( struct mulle__rbtree *a_tree,
+                             struct mulle_rbnode *node,
+                             char *(*print_value_fn)( void *))
 {
    size_t   len;
    char     *s;
 
-   s     = _node_label( a_tree, node, print_value_fn);
-   len   = strlen( s);
+   s   = _node_label( a_tree, node, print_value_fn);
+   len = strlen( s);
    mulle_free( s);
    return( len);
 }
@@ -401,11 +409,11 @@ static void   _build_tree_positions( struct mulle_rbnode *node,
                                      int level,
                                      int *x_offset)
 {
-   struct mulle_rbnode *nil;
 //   int                  left_width = 0;
-//   int                  right_width = 0;
-   int                  node_width;
    int                  my_index;
+   struct mulle_rbnode *nil;
+   size_t               node_width;
+//   int                  right_width = 0;
 
    nil = _mulle__rbtree_get_nil_node( a_tree);
    if( node == nil)
@@ -437,7 +445,7 @@ static void   _build_tree_positions( struct mulle_rbnode *node,
    if( node->_left == nil && node->_right == nil)
    {
       // Leaf node
-      nodes[ my_index].x = *x_offset + node_width / 2;
+      nodes[ my_index].x = *x_offset + (int) node_width / 2;
    }
    else if( node->_left != nil && node->_right != nil)
    {
@@ -449,23 +457,23 @@ static void   _build_tree_positions( struct mulle_rbnode *node,
    else if( node->_left != nil)
    {
       // Only left child
-      nodes[ my_index].x = nodes[ my_index + 1].x + node_width / 2;
+      nodes[ my_index].x = nodes[ my_index + 1].x + (int) node_width / 2;
    }
    else
    {
       // Only right child
-      nodes[ my_index].x = nodes[ *index - 1].x - node_width / 2;
+      nodes[ my_index].x = nodes[ *index - 1].x - (int) node_width / 2;
    }
 
    // Ensure minimum spacing
-   if( *x_offset < nodes[ my_index].x - node_width / 2)
-      *x_offset = nodes[ my_index].x - node_width / 2;
+   if( *x_offset < nodes[ my_index].x - (int) node_width / 2)
+      *x_offset = nodes[ my_index].x - (int) node_width / 2;
 
    nodes[ my_index].node = node;
    nodes[ my_index].level = level;
    nodes[ my_index].width = node_width;
 
-   *x_offset += node_width + 2;
+   *x_offset += (int) node_width + 2;
 }
 
 // Print tree using mulle_array and mulle_buffer
@@ -505,8 +513,8 @@ static void   _print_bottom_up_tree( FILE *fp,
    // Find maximum width
    for( i = 0; i < node_count; i++)
    {
-      if( (size_t) (nodes[ i].x + nodes[ i].width / 2) > max_width)
-         max_width = nodes[ i].x + nodes[ i].width / 2;
+      if( (size_t) (nodes[ i].x + (int) nodes[ i].width / 2) > max_width)
+         max_width = nodes[ i].x + (int) nodes[ i].width / 2;
    }
    max_width += 2;
 
@@ -547,7 +555,7 @@ static void   _print_bottom_up_tree( FILE *fp,
             int   start_pos;
             
             node_str = _node_label( a_tree, nodes[ i].node, print_value_fn);
-            start_pos = nodes[ i].x - strlen( node_str) / 2;
+            start_pos = nodes[ i].x - (int) strlen( node_str) / 2;
             
             if( start_pos >= 0 && start_pos + strlen( node_str) <= max_width)
             {
@@ -603,8 +611,8 @@ static void   _print_bottom_up_tree( FILE *fp,
          // Print the tree
          for( i = 0; i < height; i++)
          {
-            char  *line;
-            int   len;
+            char   *line;
+            size_t len;
             
             line = (char *) mulle_array_get( lines, i);
             
@@ -642,8 +650,8 @@ void   mulle__rbtree_node_ascii_fprintf( FILE *fp,
                                          struct mulle__rbtree *a_tree,
                                          char *(*print_value_fn)( void *))
 {
-   struct mulle_rbnode *root;
    struct mulle_rbnode *nil;
+   struct mulle_rbnode *root;
 
    if( ! a_tree)
    {

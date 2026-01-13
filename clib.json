@@ -4,7 +4,7 @@
    "description" : "🍫 mulle-rbtree-debug organizes data in a red/black tree",
    "keywords" : [],
    "license" : "BSD-3-Clause",
-   "repo" : "mulle-c/mulle-rbtree",
+   "repo" : "mulle-core/mulle-rbtree-debug",
    "src" : [
       "src/generic/include.h",
       "src/mulle--rbtree-debug.c",
