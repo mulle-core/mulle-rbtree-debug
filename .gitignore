@@ -73,3 +73,4 @@ cmake-build-*/
 .mulle/etc/make/build-dir
 vgcore.*
 test*/**/*.test.*
+.graveyard
