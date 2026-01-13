@@ -8,7 +8,7 @@
       name="mulle-rbtree-debug";
       user="mulle-core";
       repo="mulle-rbtree-debug";
-      homepage="https://github.com/mulle-c/mulle-rbtree";
+      homepage="https://github.com/mulle-core/mulle-rbtree-debug";
       license="BSD-3-Clause";
    };
    dependencies =
