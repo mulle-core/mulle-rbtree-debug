@@ -75,3 +75,4 @@ vgcore.*
 test*/**/*.test.*
 .graveyard
 .roam
+*.tmp.*
