@@ -89,18 +89,6 @@ export MULLE__C11_BRANCH="prerelease"
 
 
 #
-# mulle-c11 branch: ${MULLE__C11_BRANCH}
-#
-export MULLE__C11_BRANCH="prerelease"
-
-
-#
-# mulle-data nodetype: ${MULLE__DATA_NODETYPE:-tar}
-#
-export MULLE__DATA_NODETYPE="git"
-
-
-#
 # mulle-data nodetype: ${MULLE__DATA_NODETYPE:-tar}
 #
 export MULLE__DATA_NODETYPE="git"
@@ -110,12 +98,6 @@ export MULLE__DATA_NODETYPE="git"
 # mulle-data url: ${MULLE__DATA_URL:-https://github.com/mulle-c/mulle-data/archive/${MULLE_TAG}.tar.gz}
 #
 export MULLE__DATA_URL="https://github.com/mulle-c/mulle-data.git"
-
-
-#
-# mulle-data branch: ${MULLE__DATA_BRANCH}
-#
-export MULLE__DATA_BRANCH="prerelease"
 
 
 #
@@ -149,18 +131,6 @@ export MULLE__SPRINTF_NODETYPE="git"
 
 
 #
-# mulle-sprintf nodetype: ${MULLE__SPRINTF_NODETYPE:-tar}
-#
-export MULLE__SPRINTF_NODETYPE="git"
-
-
-#
-# mulle-sprintf url: ${MULLE__SPRINTF_URL:-https://github.com/mulle-core/mulle-sprintf/archive/${MULLE_TAG}.tar.gz}
-#
-export MULLE__SPRINTF_URL="https://github.com/mulle-core/mulle-sprintf.git"
-
-
-#
 # mulle-sprintf url: ${MULLE__SPRINTF_URL:-https://github.com/mulle-core/mulle-sprintf/archive/${MULLE_TAG}.tar.gz}
 #
 export MULLE__SPRINTF_URL="https://github.com/mulle-core/mulle-sprintf.git"
@@ -170,12 +140,6 @@ export MULLE__SPRINTF_URL="https://github.com/mulle-core/mulle-sprintf.git"
 # mulle-sprintf branch: ${MULLE__SPRINTF_BRANCH}
 #
 export MULLE__SPRINTF_BRANCH="prerelease"
-
-
-#
-# mulle-buffer nodetype: ${MULLE__BUFFER_NODETYPE:-tar}
-#
-export MULLE__BUFFER_NODETYPE="git"
 
 
 #
@@ -203,12 +167,6 @@ export MULLE__UTF_NODETYPE="git"
 
 
 #
-# mulle-utf nodetype: ${MULLE__UTF_NODETYPE:-tar}
-#
-export MULLE__UTF_NODETYPE="git"
-
-
-#
 # mulle-utf url: ${MULLE__UTF_URL:-https://github.com/mulle-c/mulle-utf/archive/${MULLE_TAG}.tar.gz}
 #
 export MULLE__UTF_URL="https://github.com/mulle-c/mulle-utf.git"
@@ -218,18 +176,6 @@ export MULLE__UTF_URL="https://github.com/mulle-c/mulle-utf.git"
 # mulle-utf branch: ${MULLE__UTF_BRANCH}
 #
 export MULLE__UTF_BRANCH="prerelease"
-
-
-#
-# mulle-utf branch: ${MULLE__UTF_BRANCH}
-#
-export MULLE__UTF_BRANCH="prerelease"
-
-
-#
-# mulle-vararg nodetype: ${MULLE__VARARG_NODETYPE:-tar}
-#
-export MULLE__VARARG_NODETYPE="git"
 
 
 #
