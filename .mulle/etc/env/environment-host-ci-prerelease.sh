@@ -23,21 +23,15 @@ export MULLE__STORAGE_NODETYPE="git"
 
 
 #
-# mulle-storage nodetype: ${MULLE__STORAGE_NODETYPE:-tar}
-#
-export MULLE__STORAGE_NODETYPE="git"
-
-
-#
 # mulle-storage url: ${MULLE__STORAGE_URL:-https://github.com/mulle-c/mulle-storage/archive/${MULLE_TAG}.tar.gz}
 #
 export MULLE__STORAGE_URL="https://github.com/mulle-c/mulle-storage.git"
 
 
 #
-# mulle-storage url: ${MULLE__STORAGE_URL:-https://github.com/mulle-c/mulle-storage/archive/${MULLE_TAG}.tar.gz}
+# mulle-storage branch: ${MULLE__STORAGE_BRANCH}
 #
-export MULLE__STORAGE_URL="https://github.com/mulle-c/mulle-storage.git"
+export MULLE__STORAGE_BRANCH="prerelease"
 
 
 #
@@ -77,6 +71,18 @@ export MULLE__ALLOCATOR_NODETYPE="git"
 
 
 #
+# mulle-allocator nodetype: ${MULLE__ALLOCATOR_NODETYPE:-tar}
+#
+export MULLE__ALLOCATOR_NODETYPE="git"
+
+
+#
+# mulle-allocator url: ${MULLE__ALLOCATOR_URL:-https://github.com/mulle-c/mulle-allocator/archive/${MULLE_TAG}.tar.gz}
+#
+export MULLE__ALLOCATOR_URL="https://github.com/mulle-c/mulle-allocator.git"
+
+
+#
 # mulle-allocator url: ${MULLE__ALLOCATOR_URL:-https://github.com/mulle-c/mulle-allocator/archive/${MULLE_TAG}.tar.gz}
 #
 export MULLE__ALLOCATOR_URL="https://github.com/mulle-c/mulle-allocator.git"
@@ -86,6 +92,18 @@ export MULLE__ALLOCATOR_URL="https://github.com/mulle-c/mulle-allocator.git"
 # mulle-allocator branch: ${MULLE__ALLOCATOR_BRANCH}
 #
 export MULLE__ALLOCATOR_BRANCH="prerelease"
+
+
+#
+# mulle-allocator branch: ${MULLE__ALLOCATOR_BRANCH}
+#
+export MULLE__ALLOCATOR_BRANCH="prerelease"
+
+
+#
+# mulle-c11 nodetype: ${MULLE__C11_NODETYPE:-tar}
+#
+export MULLE__C11_NODETYPE="git"
 
 
 #
