@@ -1,1 +1,1 @@
-mulle-rbtree-debug;${MULLE__RBTREE__DEBUG_NODETYPE:-tar};;144452B3-374C-40F5-9D2F-86276155B215;${MULLE__RBTREE__DEBUG_URL:-https://github.com/mulle-kybernetik-tv/mulle-rbtree-debug/archive/${MULLE_TAG}.tar.gz};${MULLE__RBTREE__DEBUG_BRANCH};${MULLE__RBTREE__DEBUG_TAG:-latest};;
+mulle-rbtree-debug;${MULLE__RBTREE__DEBUG_NODETYPE:-tar};;36AACE89-6CEA-499A-B023-A444868394E2;${MULLE__RBTREE__DEBUG_URL:-https://github.com/nat/mulle-rbtree-debug/archive/${MULLE_TAG}.tar.gz};${MULLE__RBTREE__DEBUG_BRANCH};${MULLE__RBTREE__DEBUG_TAG:-latest};;
