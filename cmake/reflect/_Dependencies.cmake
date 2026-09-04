@@ -62,16 +62,15 @@ else()
          endif()
       endif()
       message( STATUS "MULLE__RBTREE_LIBRARY is ${MULLE__RBTREE_LIBRARY}")
-      #
-      # The order looks ascending, but due to the way this file is read
-      # it ends up being descending, which is what we need.
-      #
-      if( MULLE__RBTREE_LIBRARY)
+   endif()
+   if( MULLE__RBTREE_LIBRARY)
          #
          # Add MULLE__RBTREE_LIBRARY to DEPENDENCY_LIBRARIES list.
          # Disable with: `mulle-sourcetree mark mulle-rbtree no-cmake-add`
          #
-         list( APPEND DEPENDENCY_LIBRARIES ${MULLE__RBTREE_LIBRARY})
+         if( NOT ${MULLE__RBTREE_LIBRARY} IN_LIST DEPENDENCY_LIBRARIES)
+            list( APPEND DEPENDENCY_LIBRARIES ${MULLE__RBTREE_LIBRARY})
+         endif()
          #
          # Inherit information from dependency.
          # Encompasses: no-cmake-searchpath,no-cmake-dependency,no-cmake-loader
@@ -114,14 +113,13 @@ else()
                message( STATUS "${_TMP_MULLE__RBTREE_DIR} not found")
             endif()
          endforeach()
-      else()
-         # Disable with: `mulle-sourcetree mark mulle-rbtree no-require-link`
-         message( SEND_ERROR "MULLE__RBTREE_LIBRARY was not found in ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${MULLE_PREFERRED_LIBRARY_SUFFIX}
+   else()
+      # Disable with: `mulle-sourcetree mark mulle-rbtree no-require-link`
+      message( SEND_ERROR "MULLE__RBTREE_LIBRARY was not found in ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${MULLE_PREFERRED_LIBRARY_SUFFIX}
 ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-rbtree${MULLE_PREFERRED_LIBRARY_SUFFIX}
 ${MULLE_FALLBACK_LIBRARY_PREFIX}mulle-rbtree${CMAKE_DEBUG_POSTFIX}${MULLE_FALLBACK_LIBRARY_SUFFIX}
 ${MULLE_FALLBACK_LIBRARY_PREFIX}mulle-rbtree${MULLE_FALLBACK_LIBRARY_SUFFIX}
 mulle-rbtree")
-      endif()
    endif()
 endif()
 
@@ -162,16 +160,15 @@ else()
          endif()
       endif()
       message( STATUS "MULLE__FPRINTF_LIBRARY is ${MULLE__FPRINTF_LIBRARY}")
-      #
-      # The order looks ascending, but due to the way this file is read
-      # it ends up being descending, which is what we need.
-      #
-      if( MULLE__FPRINTF_LIBRARY)
+   endif()
+   if( MULLE__FPRINTF_LIBRARY)
          #
          # Add MULLE__FPRINTF_LIBRARY to DEPENDENCY_LIBRARIES list.
          # Disable with: `mulle-sourcetree mark mulle-fprintf no-cmake-add`
          #
-         list( APPEND DEPENDENCY_LIBRARIES ${MULLE__FPRINTF_LIBRARY})
+         if( NOT ${MULLE__FPRINTF_LIBRARY} IN_LIST DEPENDENCY_LIBRARIES)
+            list( APPEND DEPENDENCY_LIBRARIES ${MULLE__FPRINTF_LIBRARY})
+         endif()
          #
          # Inherit information from dependency.
          # Encompasses: no-cmake-searchpath,no-cmake-dependency,no-cmake-loader
@@ -214,13 +211,12 @@ else()
                message( STATUS "${_TMP_MULLE__FPRINTF_DIR} not found")
             endif()
          endforeach()
-      else()
-         # Disable with: `mulle-sourcetree mark mulle-fprintf no-require-link`
-         message( SEND_ERROR "MULLE__FPRINTF_LIBRARY was not found in ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${MULLE_PREFERRED_LIBRARY_SUFFIX}
+   else()
+      # Disable with: `mulle-sourcetree mark mulle-fprintf no-require-link`
+      message( SEND_ERROR "MULLE__FPRINTF_LIBRARY was not found in ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${MULLE_PREFERRED_LIBRARY_SUFFIX}
 ${MULLE_PREFERRED_LIBRARY_PREFIX}mulle-fprintf${MULLE_PREFERRED_LIBRARY_SUFFIX}
 ${MULLE_FALLBACK_LIBRARY_PREFIX}mulle-fprintf${CMAKE_DEBUG_POSTFIX}${MULLE_FALLBACK_LIBRARY_SUFFIX}
 ${MULLE_FALLBACK_LIBRARY_PREFIX}mulle-fprintf${MULLE_FALLBACK_LIBRARY_SUFFIX}
 mulle-fprintf")
-      endif()
    endif()
 endif()

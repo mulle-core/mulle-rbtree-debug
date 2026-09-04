@@ -164,6 +164,9 @@ int main(void)
 {
    uint64_t               min_mask = 1ULL << ((1 + 2 + 4) * 2);   // 14 bits total for 7 nodes
    uint64_t               max_mask = 1ULL << ((7 + 8) * 2);       // 30 bits total for 15 nodes
+#ifdef MULLE_TEST_VALGRIND
+   max_mask = min_mask + 100000;  // reduced range under valgrind
+#endif
    size_t                 max;
    int                    valid;
    struct mulle__rbtree   proto;
