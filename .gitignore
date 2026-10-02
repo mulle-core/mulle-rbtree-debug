@@ -79,3 +79,6 @@ test*/**/*.test.*
 .idea
 .kiro/
 REVIEW.md
+.touch
+*.orig
+*.workspace

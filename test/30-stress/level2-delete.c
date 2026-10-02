@@ -57,16 +57,6 @@ enum node_state
     NODE_ALSO_NONE = 0x3
 };
 
-static enum node_state   get_state(uint64_t mask, int index)
-{
-    return (mask >> (index * 2)) & 0x3;
-}
-
-static enum node_state   clr_state(uint64_t mask, int index)
-{
-    return (mask >> (index * 2)) & ~0x3;
-}
-
 static char *names[] = { "CORRUPT", "A",
                                     "B", "C",
                                     "D", "E", "F", "G",
@@ -79,8 +69,6 @@ static void   add_node( struct mulle__rbtree *tree,
                         int index,
                         void *payload)
 {
-    struct mulle_rbnode   *nil;
-    enum node_state       s;
     struct mulle_rbnode   *node;
 
     node = _mulle_storage_malloc( &tree->_nodes);
@@ -145,12 +133,10 @@ int main( int argc, char *argv[])
    uint64_t               max_mask = 1ULL << (7 * 2); // 14 bits total for 7 nodes
    uint64_t               start_mask = 0; // 14 bits total for 7 nodes
    size_t                 max;
-   int                    valid;
    struct mulle__rbtree   proto;
    struct mulle__rbtree   test;
    struct mulle_rbnode    *node;
    struct mulle_rbnode    *proto_node;
-   char                   buf[ 128];
    size_t                 i;
    struct mulle_rbnode    *nil;
    char                   *name;

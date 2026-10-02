@@ -57,16 +57,6 @@ enum node_state
     NODE_ALSO_NONE = 0x3
 };
 
-static enum node_state   get_state(uint64_t mask, int index)
-{
-    return (mask >> (index * 2)) & 0x3;
-}
-
-static enum node_state   clr_state(uint64_t mask, int index)
-{
-    return (mask >> (index * 2)) & ~0x3;
-}
-
 static char *names[] = { "CORRUPT", "A",
                                     "B", "C",
                                     "D", "E", "F", "G",
@@ -79,8 +69,6 @@ static void   add_node( struct mulle__rbtree *tree,
                         int index,
                         void *payload)
 {
-    struct mulle_rbnode   *nil;
-    enum node_state       s;
     struct mulle_rbnode   *node;
 
     node = _mulle_storage_malloc( &tree->_nodes);
@@ -129,7 +117,6 @@ static int   build_tree_from_mask( struct mulle__rbtree *tree, uint64_t mask)
    struct mulle_rbnode  *parent;
    unsigned int         index;
    enum node_state      state;
-   uint64_t             memo;
 
    nil    = _mulle__rbtree_get_nil_node( tree);
    index  = 0;
@@ -168,19 +155,15 @@ int main(void)
    max_mask = min_mask + 100000;  // reduced range under valgrind
 #endif
    size_t                 max;
-   int                    valid;
    struct mulle__rbtree   proto;
    struct mulle__rbtree   test;
    struct mulle_rbnode    *node;
    struct mulle_rbnode    *proto_node;
-   char                   buf[ 128];
    size_t                 i;
    struct mulle_rbnode    *nil;
    char                   *name;
    char                   *err;
-   uint64_t               count;
 
-   count = 0;
    for( uint64_t mask = min_mask; mask <= max_mask; mask++)
    {
       //// need a level 3 node
@@ -197,8 +180,6 @@ int main(void)
             max = _mulle__rbtree_get_count( &proto);
             if( max)
             {
-               printf("=== Original: 0x%llx\n", (unsigned long long) mask);
-               print_tree_state( &proto);
                //for( i = 1; i <= max; i++)
                i = 1;
                {
@@ -212,21 +193,20 @@ int main(void)
                      node = find_node_by_index( &test, i);
                      name = (char *) _mulle_rbnode_get_payload( node);
 
-                     printf( "---Deleting \"%s\"\n", name);
-
                      _mulle__rbtree_remove_node( &test, node);
-
-                     print_tree_state( &test);
 
                      err = mulle__rbtree_validate( &test);
                      if( err)
                      {
+                        printf( "=== Original: 0x%llx\n", (unsigned long long) mask);
+                        print_tree_state( &proto);
+                        printf( "---Deleting \"%s\"\n", name);
+                        print_tree_state( &test);
                         printf( "***INVALID***: %s\n", err);
                         return( 1);
                      }
                      _mulle__rbtree_done(&test);
                   }
-                 printf( "===\n\n");
                }
             }
          }
