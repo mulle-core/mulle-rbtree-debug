@@ -1,6 +1,8 @@
 ### 0.1.4
 
-Various small improvements
+
+* Raised the minimum required `mulle-rbtree` version to 0.2.1 in the generated version check
+* Updated API documentation to reflect the new dependency requirement
 
 ### 0.1.3
 
